@@ -1,0 +1,97 @@
+﻿<Window x:Class="KubeTunnelConfig.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KubeTunnelConfig"
+        mc:Ignorable="d"
+        PreviewKeyDown="MainWindow_OnPreviewKeyDown"
+        Title="KubeTunnel Configurator" Height="500" Width="635">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Menu>
+            <MenuItem Margin="0, 5"  Header="ProfileList">
+                <MenuItem Header="Create profile" Click="CreateProfile_OnClick"/>
+                <Separator></Separator>
+                <MenuItem Header="Select" Name="ProfileMenuItem"></MenuItem>
+            </MenuItem>
+            <MenuItem Margin="0, 5"  Header="System">
+                <MenuItem Header="Close all kubectl instances" Click="MenuItem_OnClick"/>
+            </MenuItem>
+        </Menu>
+
+        <!-- Section for Displaying Available Services -->
+        <GroupBox Header="Available Services" Grid.Row="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBox Name="TxtSearch" Margin="5" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" KeyDown="TxtSearch_OnKeyDown" />
+                <ListView Grid.Row="1" KeyDown="UIElement_OnKeyDown" Name="ListViewAll" ItemsSource="{Binding FilteredServices}" SelectedItem="{Binding SelectedService}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Service" DisplayMemberBinding="{Binding Service}" Width="200"/>
+                            <GridViewColumn Header="Namespace" DisplayMemberBinding="{Binding Namespace}" Width="150"/>
+                            <GridViewColumn Header="Port" DisplayMemberBinding="{Binding LocalPort}" Width="Auto"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+        </GroupBox>
+
+        <!-- Section for Adding Services -->
+        <GroupBox Grid.Row="2">
+            <GroupBox.Header>
+                <TextBlock>
+                    <Run Text="Add Service to profile: "/>
+                    <Run Text="{Binding CurrentProfile, UpdateSourceTrigger=PropertyChanged}"/>
+                </TextBlock>
+            </GroupBox.Header>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding SelectedService.Service, UpdateSourceTrigger=PropertyChanged}" Margin="5" Width="200"/>
+                <TextBlock Text="Remote Port:" Margin="5"/>
+                <TextBox IsReadOnly="True" Width="100" Margin="5" Text="{Binding SelectedService.ParsedPort, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Text="Local Port:" Margin="5"/>
+                <TextBox Width="100" Margin="5" Name="TxtLocalPort" KeyDown="TxtLocalPort_OnKeyDown"/>
+                <Button Content="Add" Margin="5" Click="AddToConfig_Click"/>
+            </StackPanel>
+        </GroupBox>
+        
+        <!-- Section for Displaying Configured Services -->
+        <GroupBox Header="Configured Services" Grid.Row="3">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+            
+                <ListView Name="ConfiguredList" ItemsSource="{Binding ConfiguredServices}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Service" DisplayMemberBinding="{Binding Service}" Width="200"/>
+                            <GridViewColumn Header="Namespace" DisplayMemberBinding="{Binding Namespace}" Width="150"/>
+                            <GridViewColumn Header="Remote Port" DisplayMemberBinding="{Binding RemotePort}" Width="Auto"/>
+                            <GridViewColumn Header="Local Port" DisplayMemberBinding="{Binding LocalPort}" Width="Auto"/>
+                            <GridViewColumn Header="Actions">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Delete" CommandParameter="{Binding}" Click="DeleteButton_Click" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <Button Grid.Row="1" Content="Save" Margin="0,5,0,0" Width="150" Click="SaveConfig_Click"/>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</Window>
