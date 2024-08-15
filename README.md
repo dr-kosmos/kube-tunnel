@@ -5,5 +5,5 @@ This tool helps developers and system administrators to securely access Kubernet
 
 ## Features
 
-- **Ease of Use**: Simplifies the process of setting up and managing tunnels with a straightforward interface.
-- **Configuration Flexibility**: Offers customizable options for defining how tunnels are established and managed.
+- **Ease of Use**: Simplifies the process of setting up and managing port forwarding
+- **Configuration Flexibility**: Offers customizable options for defining profiles for what services to port-forward
