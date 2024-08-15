@@ -1,0 +1,18 @@
+﻿<Window x:Class="KubeTunnelConfig.TextInputDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KubeTunnelConfig"
+        mc:Ignorable="d"
+        Title="Input Dialog" Height="120" Width="300"
+        PreviewKeyDown="TextInputDialog_OnPreviewKeyDown"
+        ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+    <Grid Margin="10">
+        <TextBox Name="InputTextBox" VerticalAlignment="Top" KeyDown="InputTextBox_OnKeyDown" Margin="0,10,0,0"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Button Content="OK" Width="80" Margin="0,10,5,0" Click="OkButton_Click"/>
+            <Button Content="Cancel" Width="80" Margin="5,10,0,0" Click="CancelButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
